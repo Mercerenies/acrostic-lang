@@ -32,7 +32,7 @@ module Words = struct
         backward_def = successfully (Evaluator.set_flag Flags.IOMode Flags.io_mode_number); };
       { forward = ["PRINT"; "OUTPUT"; "WRITE"];
         forward_def = user_output;
-        backward = ["INPUT"; "READ"];
+        backward = ["SCAN"; "INPUT"; "READ"];
         backward_def = user_input; };
     ]
 
