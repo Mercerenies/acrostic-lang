@@ -14,6 +14,12 @@ let reversed e =
     backward = e.forward;
     backward_def = e.forward_def }
 
+let self_opposite xs f =
+  { forward = xs;
+    forward_def = f;
+    backward = xs;
+    backward_def = f; }
+
 module type WordList = sig
   val entries : entry list
   val starting_word : string

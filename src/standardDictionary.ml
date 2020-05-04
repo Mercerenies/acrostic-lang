@@ -1,24 +1,31 @@
 
 open Batteries
 open Functions
+open Dictionary
+
+let literal_number xs n =
+  { forward = xs;
+    forward_def = push_stack n;
+    backward = [];
+    backward_def = push_stack (- n); }
 
 module Words = struct
-
-  open Dictionary
 
   let entries = [
       { forward = ["START"; "BEGIN"];
         forward_def = (fun t -> Ok t);
         backward = ["END"; "FINISH"];
         backward_def = terminate; };
-      { forward = ["ONE"];
-        forward_def = (fun t -> Ok t);
-        backward = [];
-        backward_def = (fun t -> Ok t); };
-      { forward = ["TWO"];
-        forward_def = (fun t -> Ok t);
-        backward = [];
-        backward_def = (fun t -> Ok t); };
+      literal_number ["ONE"] 1;
+      literal_number ["TWO"] 2;
+      literal_number ["THREE"] 3;
+      literal_number ["FOUR"] 4;
+      literal_number ["FIVE"] 5;
+      literal_number ["SIX"] 6;
+      literal_number ["SEVEN"] 7;
+      literal_number ["EIGHT"] 8;
+      literal_number ["NINE"] 9;
+      literal_number ["TEN"] 10;
     ]
 
   let starting_word = "START"
