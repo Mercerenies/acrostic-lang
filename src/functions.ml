@@ -4,6 +4,8 @@ open Evaluator
 
 type func = t -> (t, err) result
 
+let (>>=) = Result.Monad.(>>=)
+
 let terminate state = Ok (set_flag Flags.Termination 1 state)
 
 let push_stack n state =
@@ -26,7 +28,6 @@ let user_input state =
     push_stack value state
 
 let user_output state =
-  let (>>=) = Result.Monad.(>>=) in
   pop_stack state >>= fun (i, state') ->
   let mode = get_flag Flags.IOMode state in
   if mode = Flags.io_mode_ascii then
@@ -34,3 +35,12 @@ let user_output state =
   else
     print_int i;
   Ok state'
+
+let unary_op f state =
+  pop_stack state >>= fun (x, state') ->
+  push_stack (f x) state'
+
+let binary_op f state =
+  pop_stack state >>= fun (x, state') ->
+  pop_stack state' >>= fun (y, state'') ->
+  push_stack (f x y) state''

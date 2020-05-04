@@ -34,6 +34,10 @@ module Words = struct
         forward_def = user_output;
         backward = ["SCAN"; "INPUT"; "READ"];
         backward_def = user_input; };
+      { forward = ["ADD"; "ADDITION"; "SUM"; "COMBINE"; "COMBINED"];
+        forward_def = binary_op (+);
+        backward = ["SUBTRACT"; "SUBTRACTION"; "DIFFERENCE"; "WITHOUT"];
+        backward_def = binary_op (-); }
     ]
 
   let starting_word = "START"

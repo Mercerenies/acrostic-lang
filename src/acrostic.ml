@@ -3,6 +3,8 @@ open Batteries
 
 module Eval = Evaluator.Eval(StandardDictionary.Dict)
 
+(* TODO Check that all words exist before executing *)
+
 let () =
   let open Printf in
   if Array.length Sys.argv >= 2 then
