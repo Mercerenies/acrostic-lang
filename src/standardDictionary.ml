@@ -45,6 +45,25 @@ module Words = struct
       literal_number ["EIGHT"] 8;
       literal_number ["NINE"] 9;
       literal_number ["TEN"; "DECADE"; "DECADES"] 10;
+      literal_number ["ELEVEN"] 11;
+      literal_number ["TWELVE"; "DOZEN"] 12;
+      literal_number ["THIRTEEN"] 13;
+      literal_number ["FOURTEEN"] 14;
+      literal_number ["FIFTEEN"] 15;
+      literal_number ["SIXTEEN"] 16;
+      literal_number ["SEVENTEEN"] 17;
+      literal_number ["EIGHTEEN"] 18;
+      literal_number ["NINETEEN"] 19;
+      literal_number ["TWENTY"; "FORTNIGHT"] 20;
+      literal_number ["QUARTER"] 25;
+      literal_number ["THIRTY"] 30;
+      literal_number ["FORTY"] 40;
+      literal_number ["FIFTY"] 50;
+      literal_number ["SIXTY"] 60;
+      literal_number ["SEVENTY"] 70;
+      literal_number ["EIGHTY"] 80;
+      literal_number ["NINETY"] 90;
+      literal_number ["HUNDRED"; "CENTURY"] 100;
       entry
         { words = ["ASCII"; "TEXTUALLY"; "TEXT"; "CHARACTER"; "TEXTUAL"; "TEXTS"; "STRING";
                    "CHARACTERS"; "STRINGS"];
