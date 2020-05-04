@@ -1,0 +1,2 @@
+<src>: include
+<**/*.ml> or <**/*.mli> or <**/acrostic.native>: package(batteries)
