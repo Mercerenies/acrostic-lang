@@ -34,17 +34,17 @@ module Words = struct
         { words = ["END"; "FINISH"; "ENDING"; "FINISHING"; "ENDS"; "FINISHES"; "ENDED";
                    "FINISHED"];
           def = terminate; };
-      literal_number ["ZERO"] 0;
-      literal_number ["ONE"] 1;
-      literal_number ["TWO"] 2;
-      literal_number ["THREE"] 3;
-      literal_number ["FOUR"] 4;
-      literal_number ["FIVE"] 5;
+      literal_number ["ZERO"; "ZILCH"; "NONE"] 0;
+      literal_number ["ONE"; "SINGLE"; "SINGULAR"] 1;
+      literal_number ["TWO"; "PAIR"; "DOUBLE"; "DUO"] 2;
+      literal_number ["THREE"; "TRIPLE"; "TRIO"] 3;
+      literal_number ["FOUR"; "QUADRUPLE"] 4;
+      literal_number ["FIVE"; "QUINTUPLE"] 5;
       literal_number ["SIX"] 6;
       literal_number ["SEVEN"] 7;
       literal_number ["EIGHT"] 8;
       literal_number ["NINE"] 9;
-      literal_number ["TEN"] 10;
+      literal_number ["TEN"; "DECADE"; "DECADES"] 10;
       entry
         { words = ["ASCII"; "TEXTUALLY"; "TEXT"; "CHARACTER"; "TEXTUAL"; "TEXTS"; "STRING";
                    "CHARACTERS"; "STRINGS"];
