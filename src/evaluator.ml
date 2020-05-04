@@ -9,7 +9,8 @@ type t =
     flags: int FlagMap.t;
     dir: WordParser.dir;
     vel: int;
-    stack: int list; }
+    stack: int list;
+    storage: int list; }
 
 type err = StackUnderflow
          | NoSuchWord of string
@@ -115,14 +116,16 @@ module Eval(Dict : Dictionary) = struct
             flags = FlagMap.empty;
             dir = WordParser.direction_of word;
             vel = 1;
-            stack = []; }
+            stack = [];
+            storage = []; }
     | [word] when List.mem word.text ending_words ->
        Ok { code = code;
             pointer = word.start_pos;
             flags = FlagMap.empty;
             dir = WordParser.direction_of word;
             vel = -1;
-            stack = []; }
+            stack = [];
+            storage = []; }
     | [] -> Error NoStartPosition
     | xs ->
        let start_or_end x = if List.mem x.text starting_words then x.start_pos else x.end_pos in

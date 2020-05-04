@@ -9,7 +9,8 @@ type t =
     flags: int FlagMap.t;
     dir: WordParser.dir;
     vel: int;
-    stack: int list; }
+    stack: int list;
+    storage: int list; }
 
 type err = StackUnderflow
          | NoSuchWord of string

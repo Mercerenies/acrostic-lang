@@ -11,12 +11,20 @@ let terminate state = Ok (set_flag Flags.Termination 1 state)
 let push_stack n state =
   Ok { state with stack = n :: state.stack; }
 
-let successfully f state = Ok (f state)
+let pop_storage state =
+  match state.storage with
+  | [] -> Error StackUnderflow
+  | (x :: xs) -> Ok (x, { state with storage = xs; })
+
+let push_storage n state =
+  Ok { state with stack = n :: state.storage; }
 
 let pop_stack state =
   match state.stack with
   | [] -> Error StackUnderflow
   | (x :: xs) -> Ok (x, { state with stack = xs; })
+
+let successfully f state = Ok (f state)
 
 let noop = successfully identity
 
@@ -63,3 +71,11 @@ let swap state =
   pop_stack state >>= fun (x, state') ->
   pop_stack state' >>= fun (y, state'') ->
   push_stack x state'' >>= push_stack y
+
+let store_value state =
+  pop_stack state >>= fun (x, state') ->
+  push_storage x state'
+
+let retrieve_value state =
+  pop_storage state >>= fun (x, state') ->
+  push_stack x state'
