@@ -28,6 +28,8 @@ let mapi f (Grid (w, h, arr)) =
   let f' i x = f (index_to_pos (Grid (w, h, arr)) i) x in
   Grid (w, h, Vect.mapi f' arr)
 
+let map f grid = mapi (fun _ -> f) grid
+
 let to_string (Grid (w, _, arr)) =
   let f i c =
     if i mod w = w - 1 then String.make 1 c ^ "\n" else String.make 1 c in

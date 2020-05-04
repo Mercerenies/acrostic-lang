@@ -15,6 +15,8 @@ val set_cell : t -> int * int -> char -> t
 
 val mapi : (int * int -> char -> char) -> t -> t
 
+val map : (char -> char) -> t -> t
+
 val to_string : t -> string
 
 val of_list : string list -> t
