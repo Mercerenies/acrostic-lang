@@ -17,7 +17,7 @@ let pop_storage state =
   | (x :: xs) -> Ok (x, { state with storage = xs; })
 
 let push_storage n state =
-  Ok { state with stack = n :: state.storage; }
+  Ok { state with storage = n :: state.storage; }
 
 let pop_stack state =
   match state.stack with

@@ -78,11 +78,15 @@ module Eval(Dict : Dictionary) = struct
       match at_pos with
       | Some word when Dict.should_acknowledge word state -> begin
           let rel_pos = WordParser.position_in_word word state.pointer in
-          (* List.iter (Printf.printf "%d ") state.stack;
-           * print_endline "";
-           * print_endline word.text; *)
+          (*
+          List.iter (Printf.printf "%d ") state.stack;
+          print_endline "";
+          List.iter (Printf.printf "%d ") state.storage;
+          print_endline "";
+          print_endline word.text;
+          *)
           let (state', f) =
-            if rel_pos < String.length word.text / 2 then
+            if rel_pos <= String.length word.text / 2 then
               (* Forward execution *)
               let state' = { state with pointer = word.end_pos;
                                         dir = dir;
