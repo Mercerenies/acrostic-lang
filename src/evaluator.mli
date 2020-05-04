@@ -37,6 +37,8 @@ module type Dictionary = sig
 
   val starting_word : string
 
+  val should_acknowledge : WordParser.word -> t -> bool
+
 end
 
 module Eval(Dict : Dictionary) : sig

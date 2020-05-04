@@ -52,6 +52,8 @@ module type Dictionary = sig
 
   val starting_word : string
 
+  val should_acknowledge : WordParser.word -> t -> bool
+
 end
 
 let at_invalid_pos state =
@@ -74,29 +76,30 @@ module Eval(Dict : Dictionary) = struct
       let dir = WordParser.other_dir state.dir in
       let at_pos = WordParser.word_at state.code dir state.pointer in
       match at_pos with
-      | None ->
+      | Some word when Dict.should_acknowledge word state -> begin
+          let rel_pos = WordParser.position_in_word word state.pointer in
+          (* List.iter (Printf.printf "%d ") state.stack;
+           * print_endline "";
+           * print_endline word.text; *)
+          let (state', f) =
+            if rel_pos < String.length word.text / 2 then
+              (* Forward execution *)
+              let state' = { state with pointer = word.end_pos;
+                                        dir = dir;
+                                        vel = 1; } in
+              (state', Dict.execute_forward word.text)
+            else
+              (* Backward execution *)
+              let state' = { state with pointer = word.start_pos;
+                                        dir = dir;
+                                        vel = -1; } in
+              (state', Dict.execute_backward word.text) in
+          match f with
+          | None -> Error (NoSuchWord word.text)
+          | Some f' -> f' state'
+        end
+      | _ ->
          execute_one_step { state with pointer = WordParser.move_in_dir state.dir (- state.vel) state.pointer; }
-      | Some word ->
-         let rel_pos = WordParser.position_in_word word state.pointer in
-         (* List.iter (Printf.printf "%d ") state.stack;
-          * print_endline "";
-          * print_endline word.text; *)
-         let (state', f) =
-           if rel_pos < String.length word.text / 2 then
-             (* Forward execution *)
-             let state' = { state with pointer = word.end_pos;
-                                       dir = dir;
-                                       vel = 1; } in
-             (state', Dict.execute_forward word.text)
-           else
-             (* Backward execution *)
-             let state' = { state with pointer = word.start_pos;
-                                       dir = dir;
-                                       vel = -1; } in
-             (state', Dict.execute_backward word.text) in
-         match f with
-         | None -> Error (NoSuchWord word.text)
-         | Some f' -> f' state'
 
   let rec execute_until_done state =
     if get_flag Flags.Termination state <> 0 then

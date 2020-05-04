@@ -55,4 +55,6 @@ module Dict(W : WordList) = struct
 
   let starting_word = W.starting_word
 
+  let should_acknowledge _ _ = true
+
 end
