@@ -1,16 +1,17 @@
 
 open Batteries
 
-type entry = {
-    forward: string list;
-    forward_def: Evaluator.t -> (Evaluator.t, Evaluator.err) result;
-    backward: string list;
-    backward_def: Evaluator.t -> (Evaluator.t, Evaluator.err) result;
-  }
+type definition =
+  { words: string list;
+    def: Evaluator.t -> (Evaluator.t, Evaluator.err) result; }
+
+type entry =
+  { forward: definition;
+    backward: definition; }
 
 val reversed : entry -> entry
 
-val self_opposite : string list -> (Evaluator.t -> (Evaluator.t, Evaluator.err) result) -> entry
+val self_opposite : definition -> entry
 
 module type WordList = sig
   val entries : entry list
