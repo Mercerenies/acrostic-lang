@@ -49,6 +49,7 @@ let user_output state =
     print_char (Char.chr i)
   else
     print_int i;
+  flush stdout;
   Ok state'
 
 let unary_op f state =
