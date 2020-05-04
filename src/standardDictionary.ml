@@ -37,7 +37,9 @@ module Words = struct
       { forward = ["ADD"; "ADDITION"; "SUM"; "COMBINE"; "COMBINED"];
         forward_def = binary_op (+);
         backward = ["SUBTRACT"; "SUBTRACTION"; "DIFFERENCE"; "WITHOUT"];
-        backward_def = binary_op (-); }
+        backward_def = binary_op (-); };
+      self_opposite ["NOTHING"; "VOID"; "NULL"; "EMPTY"; "WAIT"; "STANDBY"; "REST";
+                     "NOTHINGNESS"; "WAITING"; "RESTING"; "EMPTINESS"] noop;
     ]
 
   let starting_word = "START"

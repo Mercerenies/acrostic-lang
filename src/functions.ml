@@ -18,6 +18,8 @@ let pop_stack state =
   | [] -> Error StackUnderflow
   | (x :: xs) -> Ok (x, { state with stack = xs; })
 
+let noop = successfully identity
+
 let user_input state =
   let mode = get_flag Flags.IOMode state in
   if mode = Flags.io_mode_ascii then
