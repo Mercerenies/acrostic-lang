@@ -12,9 +12,11 @@ let literal_number xs n =
 module Words = struct
 
   let entries = [
-      { forward = ["START"; "BEGIN"];
+      { forward = ["START"; "BEGIN"; "STARTING"; "BEGINNING"; "STARTED"; "STARTS";
+                   "BEGINS"; "BEGAN"; "BEGUN"];
         forward_def = (fun t -> Ok t);
-        backward = ["END"; "FINISH"];
+        backward = ["END"; "FINISH"; "ENDING"; "FINISHING"; "ENDS"; "FINISHES"; "ENDED";
+                    "FINISHED"];
         backward_def = terminate; };
       literal_number ["ONE"] 1;
       literal_number ["TWO"] 2;
