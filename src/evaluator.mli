@@ -47,4 +47,6 @@ module Eval(Dict : Dictionary) : sig
 
   val execute_code : CodeGrid.t -> (t, err) result
 
+  val check_all_words_exist : CodeGrid.t -> (unit, err) result
+
 end

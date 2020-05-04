@@ -56,7 +56,15 @@ let at_invalid_pos state =
 
 module Eval(Dict : Dictionary) = struct
 
+  module ResultOps = Util.MonadOps(struct
+                         type 'a t = ('a, err) result
+                         include Result.Monad
+                       end)
+
+  let (>>=) = Result.Monad.(>>=)
+
   let rec execute_one_step state =
+    let open WordParser in
     if at_invalid_pos state then
       Error (InvalidPosition state.pointer)
     else
@@ -88,7 +96,6 @@ module Eval(Dict : Dictionary) = struct
     if get_flag Flags.Termination state <> 0 then
       Ok state
     else
-    let (>>=) = Result.Monad.(>>=) in
     execute_one_step state >>= execute_until_done
 
   let starting_state code =
@@ -117,7 +124,15 @@ module Eval(Dict : Dictionary) = struct
        Error (AmbiguousStartPosition (List.map start_or_end xs))
 
   let execute_code code =
-      let (>>=) = Result.Monad.(>>=) in
       starting_state code >>= execute_until_done
+
+  let check_all_words_exist code =
+    let open WordParser in
+    let words = WordParser.find_all_words code in
+    let f () b =
+      match Dict.execute_forward b.text with
+      | Some _ -> Ok ()
+      | None -> Error (NoSuchWord b.text) in
+    ResultOps.fold f () words
 
 end
