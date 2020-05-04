@@ -15,6 +15,15 @@ let literal_number xs n =
 
 let entry f b = { forward = f; backward = b; forward_branch = no_branch; backward_branch = no_branch }
 
+let branch_top f b entry =
+  let with_top g state =
+    match pop_stack state with
+    | Ok (x, _) -> g x
+    | Error _ -> false in
+  { entry with
+      forward_branch = with_top f;
+      backward_branch = with_top b; }
+
 module Words = struct
 
   let entries = [
@@ -25,6 +34,7 @@ module Words = struct
         { words = ["END"; "FINISH"; "ENDING"; "FINISHING"; "ENDS"; "FINISHES"; "ENDED";
                    "FINISHED"];
           def = terminate; };
+      literal_number ["ZERO"] 0;
       literal_number ["ONE"] 1;
       literal_number ["TWO"] 2;
       literal_number ["THREE"] 3;
@@ -91,6 +101,13 @@ module Words = struct
                    "RECLAIMS"; "RECLAIMING"; "RECLAIMED"; "FETCH"; "FETCHED"; "FETCHING";
                    "FETCHES"];
           def = retrieve_value; };
+      branch_top ((<>) 0) ((=) 0) @@
+        entry
+          { words = ["IF"; "BRANCH"; "CONDITION"; "BRANCHED"; "BRANCHING"; "BRANCHES";
+                     "CONDITIONS"; "CONDITIONAL"; "CONDITIONALS"; "CONDITIONALLY"];
+            def = noop; }
+          { words = [];
+            def = noop; };
     ]
 
   let starting_word = "START"
