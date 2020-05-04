@@ -58,3 +58,8 @@ let safe_div state =
   try
     push_stack (x / y) state'' >>= push_stack ((x mod y + y) mod y)
   with Division_by_zero -> Error (MathError "division by zero")
+
+let swap state =
+  pop_stack state >>= fun (x, state') ->
+  pop_stack state' >>= fun (y, state'') ->
+  push_stack x state'' >>= push_stack y

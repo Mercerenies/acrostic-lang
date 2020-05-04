@@ -26,3 +26,5 @@ val unary_op : (int -> int) -> func
 val binary_op : (int -> int -> int) -> func
 
 val safe_div : func
+
+val swap : func

@@ -60,6 +60,9 @@ module Words = struct
                     "DELETE"; "DELETING"; "DELETES"; "DELETED"; "DISCARD"; "DISCARDING"; "DISCARDED";
                     "DISCARDS"];
         backward_def = fun state -> Result.map (fun (_, s) -> s) @@ pop_stack state; };
+      self_opposite ["SWAP"; "SWAPPING"; "SWAPPED"; "SWAPS"; "FLIP"; "FLIPPING";
+                     "FLIPS"; "FLIPPED"; "SWITCH"; "SWITCHED"; "SWITCHING"; "SWITCHES";
+                     "EXCHANGE"; "EXCHANGES"; "EXCHANGING"; "EXCHANGED"] swap;
     ]
 
   let starting_word = "START"
