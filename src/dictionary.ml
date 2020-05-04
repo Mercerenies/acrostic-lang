@@ -12,7 +12,7 @@ let reversed e =
   { forward = e.backward;
     forward_def = e.backward_def;
     backward = e.forward;
-    backward_def = e.forward_def }
+    backward_def = e.forward_def; }
 
 let self_opposite xs f =
   { forward = xs;
@@ -43,7 +43,7 @@ module Dict(W : WordList) = struct
 
   let antonyms_of s =
     WordMap.find_opt s word_map |>
-      Option.map_default (fun x -> x.forward) []
+      Option.map_default (fun x -> x.backward) []
 
   let execute_forward s =
     WordMap.find_opt s word_map |>
