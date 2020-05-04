@@ -20,6 +20,11 @@ let pop_stack state =
 
 let noop = successfully identity
 
+let dup state =
+  pop_stack state >>= fun (x, state') ->
+  push_stack x state' >>= fun state'' ->
+  push_stack x state''
+
 let user_input state =
   let mode = get_flag Flags.IOMode state in
   if mode = Flags.io_mode_ascii then

@@ -14,6 +14,8 @@ val pop_stack : t -> (int * t, err) result
 
 val noop : func
 
+val dup : func
+
 val user_input : func
 
 val user_output : func
