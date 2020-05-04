@@ -17,8 +17,10 @@ let () =
         (* Probably won't actually print the stack like this. This is
            just for debugging. *)
         flush stdout;
+        (*
         print_endline "Final stack:\n";
         List.iter (fun i -> printf "  %i\n" i) state.stack
+        *)
       end
   else
     print_endline "Usage: ./acrostic.native <filename>"
