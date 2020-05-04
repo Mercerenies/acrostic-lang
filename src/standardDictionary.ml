@@ -72,7 +72,8 @@ module Words = struct
           def = successfully (Evaluator.set_flag Flags.IOMode Flags.io_mode_number); };
       entry
         { words = ["PRINT"; "OUTPUT"; "WRITE"; "PRINTS"; "PRINTING"; "PRINTED"; "OUTPUTS";
-                   "OUTPUTTING"; "OUTPUTTED"; "WRITES"; "WROTE"; "WRITING"];
+                   "OUTPUTTING"; "OUTPUTTED"; "WRITES"; "WROTE"; "WRITING"; "DISPLAY"; "DISPLAYS";
+                   "DISPLAYING"; "DISPLAYED"];
           def = user_output; }
         { words = ["SCAN"; "INPUT"; "READ"; "SCANNED"; "SCANNING"; "SCANS"; "INPUTTED"; "INPUTTING";
                    "INPUTS"; "READS"; "READING"];
@@ -93,7 +94,8 @@ module Words = struct
       self_opposite
         { words = ["NOTHING"; "VOID"; "NULL"; "EMPTY"; "WAIT"; "STANDBY"; "REST";
                    "NOTHINGNESS"; "WAITING"; "RESTING"; "EMPTINESS"; "VOIDS"; "NULLS";
-                   "EMPTINESS"; "WAITS"; "WAITED"; "RESTED"; "RESTS"; "NIL"; "NILS"];
+                   "EMPTINESS"; "WAITS"; "WAITED"; "RESTED"; "RESTS"; "NIL"; "NILS";
+                   "VOIDED"; "VOIDING"];
           def = noop; };
       entry
         { words = ["DUPLICATE"; "DITTO"; "AGAIN"; "CLONE"; "COPY"; "DUPLICATING"; "DUPLICATED";
