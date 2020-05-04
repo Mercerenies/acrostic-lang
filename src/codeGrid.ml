@@ -15,10 +15,13 @@ let height_of (Grid (_, h, _)) = h
 
 let bounds_of (Grid (w, h, _)) = (w, h)
 
-let get_cell (Grid (w, h, arr)) xy =
-  try
-    Vect.get arr (pos_to_index (Grid (w, h, arr)) xy)
-  with Vect.Out_of_bounds -> ' '
+let get_cell (Grid (w, h, arr)) (x, y) =
+  if x < 0 || y < 0 || x >= w || y >= h then
+    ' '
+  else
+    try
+      Vect.get arr (pos_to_index (Grid (w, h, arr)) (x, y))
+    with Vect.Out_of_bounds -> ' '
 
 let set_cell (Grid (w, h, arr)) xy c =
   let arr' = Vect.set arr (pos_to_index (Grid (w, h, arr)) xy) c in
