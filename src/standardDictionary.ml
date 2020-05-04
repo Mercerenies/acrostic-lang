@@ -26,6 +26,14 @@ module Words = struct
       literal_number ["EIGHT"] 8;
       literal_number ["NINE"] 9;
       literal_number ["TEN"] 10;
+      { forward = ["ASCII"; "TEXTUALLY"; "TEXT"; "CHARACTER"];
+        forward_def = successfully (Evaluator.set_flag Flags.IOMode Flags.io_mode_ascii);
+        backward = ["NUMBER"; "NUMERICALLY"; "INTEGER"];
+        backward_def = successfully (Evaluator.set_flag Flags.IOMode Flags.io_mode_number); };
+      { forward = ["PRINT"; "OUTPUT"; "WRITE"];
+        forward_def = user_output;
+        backward = ["INPUT"; "READ"];
+        backward_def = user_input; };
     ]
 
   let starting_word = "START"
