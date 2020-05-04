@@ -9,9 +9,11 @@ let literal_number xs n =
         def = push_stack n; };
     backward =
         { words = [];
-          def = push_stack (- n); }; }
+          def = push_stack (- n); };
+    forward_branch = no_branch;
+    backward_branch = no_branch; }
 
-let entry f b = { forward = f; backward = b; }
+let entry f b = { forward = f; backward = b; forward_branch = no_branch; backward_branch = no_branch }
 
 module Words = struct
 

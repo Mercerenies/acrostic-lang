@@ -5,9 +5,15 @@ type definition =
   { words: string list;
     def: Evaluator.t -> (Evaluator.t, Evaluator.err) result; }
 
+type branch_policy = Evaluator.t -> bool
+
 type entry =
   { forward: definition;
-    backward: definition; }
+    backward: definition;
+    forward_branch: branch_policy;
+    backward_branch: branch_policy; }
+
+val no_branch : branch_policy
 
 val reversed : entry -> entry
 

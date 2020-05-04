@@ -5,17 +5,27 @@ type definition =
   { words: string list;
     def: Evaluator.t -> (Evaluator.t, Evaluator.err) result; }
 
+type branch_policy = Evaluator.t -> bool
+
 type entry =
   { forward: definition;
-    backward: definition; }
+    backward: definition;
+    forward_branch: branch_policy;
+    backward_branch: branch_policy; }
+
+let no_branch _ = true
 
 let reversed e =
   { forward = e.backward;
-    backward = e.forward; }
+    backward = e.forward;
+    forward_branch = e.backward_branch;
+    backward_branch = e.forward_branch; }
 
 let self_opposite d =
   { forward = d;
-    backward = d; }
+    backward = d;
+    forward_branch = no_branch;
+    backward_branch = no_branch; }
 
 module type WordList = sig
   val entries : entry list
@@ -52,6 +62,13 @@ module Dict(W : WordList) = struct
 
   let starting_word = W.starting_word
 
-  let should_acknowledge _ _ = true
+  let should_acknowledge word state =
+    let open WordParser in
+    let rel_pos = WordParser.position_in_word word state.Evaluator.pointer in
+    let dir = if rel_pos < String.length word.text / 2 then 1 else -1 in
+    WordMap.find_opt word.text word_map |>
+      Option.map_default
+        (fun x -> if dir > 0 then x.forward_branch state else x.backward_branch state)
+        false
 
 end
