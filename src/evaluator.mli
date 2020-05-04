@@ -16,6 +16,7 @@ type err = StackUnderflow
          | InvalidPosition of (int * int)
          | NoStartPosition
          | AmbiguousStartPosition of (int * int) list
+         | MathError of string
 
 val get_flag : Flags.t -> t -> int
 

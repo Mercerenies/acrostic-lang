@@ -16,6 +16,7 @@ type err = StackUnderflow
          | InvalidPosition of (int * int)
          | NoStartPosition
          | AmbiguousStartPosition of (int * int) list
+         | MathError of string
 
 let dump_state state =
   let (x, y) = state.pointer in
@@ -33,6 +34,7 @@ let err_to_string e =
   | NoSuchWord s -> sprintf "No such word '%s'" s
   | InvalidPosition (x, y) -> sprintf "Invalid position (%d, %d)" x y
   | NoStartPosition -> "No starting position"
+  | MathError s -> "Math error: " ^ s
   | AmbiguousStartPosition xs ->
      let xs' = List.map (fun (x, y) -> sprintf "(%d, %d)" x y) xs in
      "Ambiguous starting position: " ^ String.concat ", " xs'

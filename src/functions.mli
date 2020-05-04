@@ -24,3 +24,5 @@ val unary_op : (int -> int) -> func
 
 (* Top of stack is second arg *)
 val binary_op : (int -> int -> int) -> func
+
+val safe_div : func
