@@ -75,8 +75,11 @@ module Eval(Dict : Dictionary) = struct
          execute_one_step { state with pointer = WordParser.move_in_dir state.dir (- state.vel) state.pointer; }
       | Some word ->
          let rel_pos = WordParser.position_in_word word state.pointer in
+         (* List.iter (Printf.printf "%d ") state.stack;
+          * print_endline "";
+          * print_endline word.text; *)
          let (state', f) =
-           if rel_pos <= String.length word.text / 2 then
+           if rel_pos < String.length word.text / 2 then
              (* Forward execution *)
              let state' = { state with pointer = word.end_pos;
                                        dir = dir;
