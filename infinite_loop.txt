@@ -1,0 +1,9 @@
+
+
+    BEGINNING
+           O
+         NOTHING
+           H  U
+           I  L
+           NULL
+           G
