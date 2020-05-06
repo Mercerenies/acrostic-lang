@@ -19,13 +19,13 @@
      G    O         G                              P
           T                           I            L
           H                    NOTHINGNESS         I   P
-      V   I                    U      P            C   R   P
-     NOTHING                   L      U            ASCII   R
-      I   G             TEXTUALLY  WAIT            T   NOTHING
-   VOID                 E          I               E   T   N   H
-   O                 C  X      V   T               D       TEXTUALLY
-   I            T    EMPTY     O   H                           N
-VOID            H    N         I   O                           D
+          I                    U      P            C   R   P
+          N                    L      U            ASCII   R
+    NOTHING             TEXTUALLY  WAIT            T   NOTHING
+    U                   E          I               E   T   N   H
+    L                C  X      V   T               D       TEXTUALLY
+    L           T    EMPTY     O   H                           N
+VOIDS           H    N         I   O                           D
   N             INPUTTED       D   U                           R
   P             R    U         EIGHT                           ELEVEN
   U             T    R   HUNDRED                               D    O

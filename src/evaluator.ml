@@ -86,7 +86,7 @@ module Eval(Dict : Dictionary) = struct
           print_endline word.text;
           *)
           let (state', f) =
-            if rel_pos <= String.length word.text / 2 then
+            if 2 * rel_pos < String.length word.text then
               (* Forward execution *)
               let state' = { state with pointer = word.end_pos;
                                         dir = dir;

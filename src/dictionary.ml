@@ -65,7 +65,7 @@ module Dict(W : WordList) = struct
   let should_acknowledge word state =
     let open WordParser in
     let rel_pos = WordParser.position_in_word word state.Evaluator.pointer in
-    let dir = if rel_pos < String.length word.text / 2 then 1 else -1 in
+    let dir = if 2 * rel_pos < String.length word.text then 1 else -1 in
     WordMap.find_opt word.text word_map |>
       Option.map_default
         (fun x -> if dir > 0 then x.forward_branch state else x.backward_branch state)
