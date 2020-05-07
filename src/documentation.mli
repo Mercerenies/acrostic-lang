@@ -3,7 +3,8 @@ type doc =
   { word: string;
     synonyms: string list;
     antonyms: string list;
-    text: string; }
+    text: string;
+    canon: string; }
 
 val string : doc -> string
 
