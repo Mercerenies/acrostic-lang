@@ -65,7 +65,7 @@ let safe_div state =
   pop_stack state >>= fun (x, state') ->
   pop_stack state' >>= fun (y, state'') ->
   try
-    push_stack (x / y) state'' >>= push_stack ((x mod y + y) mod y)
+    push_stack (x / y) state'' >>= push_stack (x mod y) (* TODO Make this truncate toward negative infinity *)
   with Division_by_zero -> Error (MathError "division by zero")
 
 let swap state =
