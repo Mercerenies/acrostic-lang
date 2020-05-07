@@ -137,7 +137,8 @@ module Words = struct
                  the divisor and the next value is the dividend. \
                  First, the quotient (truncated toward zero) is \
                  pushed, then the remainder of division is pushed onto \
-                 the stack."; };
+                 the stack. In the case of division by zero, the \
+                 program terminates with an error immediately."; };
       self_opposite
         { words = ["NOTHING"; "VOID"; "NULL"; "EMPTY"; "WAIT"; "STANDBY"; "REST";
                    "NOTHINGNESS"; "WAITING"; "RESTING"; "EMPTINESS"; "VOIDS"; "NULLS";
@@ -188,7 +189,9 @@ module Words = struct
                    during backtracking, this word will be ignored if \
                    the top value of the stack is zero. If used \
                    backwards, this word will be ignored if the top \
-                   value of the stack is nonzero."; }
+                   value of the stack is nonzero. If the stack is \
+                   empty, a branch will never be taken, either forward \
+                   or backward."; }
           { words = [];
             def = noop;
             doc = ""; };
