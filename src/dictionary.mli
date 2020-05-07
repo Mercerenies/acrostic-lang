@@ -3,7 +3,8 @@ open Batteries
 
 type definition =
   { words: string list;
-    def: Evaluator.t -> (Evaluator.t, Evaluator.err) result; }
+    def: Evaluator.t -> (Evaluator.t, Evaluator.err) result;
+    doc: string; }
 
 type branch_policy = Evaluator.t -> bool
 

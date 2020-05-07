@@ -2,18 +2,31 @@
 open Batteries
 open Functions
 open Dictionary
+open Printf
+
+let literal_number_doc n =
+  sprintf
+    "Pushes the literal number %d onto the stack. If executed \
+     backwards, pushes the literal number %d onto the stack."
+    n (-n)
 
 let literal_number xs n =
   { forward =
       { words = xs;
-        def = push_stack n; };
+        def = push_stack n;
+        doc = literal_number_doc n; };
     backward =
         { words = [];
-          def = push_stack (- n); };
+          def = push_stack (- n);
+          doc = ""; };
     forward_branch = no_branch;
     backward_branch = no_branch; }
 
-let entry f b = { forward = f; backward = b; forward_branch = no_branch; backward_branch = no_branch }
+let entry f b =
+  { forward = f;
+    backward = b;
+    forward_branch = no_branch;
+    backward_branch = no_branch; }
 
 let branch_top f b entry =
   let with_top g state =
@@ -30,10 +43,12 @@ module Words = struct
       entry
         { words = ["START"; "BEGIN"; "STARTING"; "BEGINNING"; "STARTED"; "STARTS";
                    "BEGINS"; "BEGAN"; "BEGUN"];
-          def = (fun t -> Ok t); }
+          def = (fun t -> Ok t);
+          doc = ""; }
         { words = ["END"; "FINISH"; "ENDING"; "FINISHING"; "ENDS"; "FINISHES"; "ENDED";
                    "FINISHED"];
-          def = terminate; };
+          def = terminate;
+          doc = ""; };
       literal_number ["ZERO"; "ZILCH"; "NONE"] 0;
       literal_number ["ONE"; "SINGLE"; "SINGULAR"] 1;
       literal_number ["TWO"; "PAIR"; "DOUBLE"; "DUO"] 2;
@@ -67,68 +82,84 @@ module Words = struct
       entry
         { words = ["ASCII"; "TEXTUALLY"; "TEXT"; "CHARACTER"; "TEXTUAL"; "TEXTS"; "STRING";
                    "CHARACTERS"; "STRINGS"];
-          def = successfully (Evaluator.set_flag Flags.IOMode Flags.io_mode_ascii); }
+          def = successfully (Evaluator.set_flag Flags.IOMode Flags.io_mode_ascii);
+          doc = ""; }
         { words = ["NUMBER"; "NUMERICALLY"; "INTEGER"; "NUMBERS"; "INTEGERS"; "NUMERICAL"];
-          def = successfully (Evaluator.set_flag Flags.IOMode Flags.io_mode_number); };
+          def = successfully (Evaluator.set_flag Flags.IOMode Flags.io_mode_number);
+          doc = ""; };
       entry
         { words = ["PRINT"; "OUTPUT"; "WRITE"; "PRINTS"; "PRINTING"; "PRINTED"; "OUTPUTS";
                    "OUTPUTTING"; "OUTPUTTED"; "WRITES"; "WROTE"; "WRITING"; "DISPLAY"; "DISPLAYS";
                    "DISPLAYING"; "DISPLAYED"];
-          def = user_output; }
+          def = user_output;
+          doc = ""; }
         { words = ["SCAN"; "INPUT"; "READ"; "SCANNED"; "SCANNING"; "SCANS"; "INPUTTED"; "INPUTTING";
                    "INPUTS"; "READS"; "READING"];
-          def = user_input; };
+          def = user_input;
+          doc = ""; };
       entry
         { words = ["ADD"; "ADDITION"; "SUM"; "COMBINE"; "COMBINED"; "ADDING"; "ADDED"; "ADDITIVE";
                    "COMBINING"; "SUMMING"; "SUMMED"; "ADDS"; "COMBINES"; "SUMS"];
-          def = binary_op (+); }
+          def = binary_op (+);
+          doc = ""; }
         { words = ["SUBTRACT"; "SUBTRACTION"; "DIFFERENCE"; "WITHOUT"; "SUBTRACTING"; "SUBTRACTED";
                    "SUBTRACTS"; "DIFFER"; "DIFFERING"; "DIFFERS"; "DIFFERED"];
-          def = binary_op (-); };
+          def = binary_op (-);
+          doc = ""; };
       entry
         { words = ["MULTIPLY"; "MULTIPLYING"; "MULTIPLIED"; "MULTIPLIES"; "TIMES"; "OF"];
-          def = binary_op ( * ); }
+          def = binary_op ( * );
+          doc = ""; }
         { words = ["DIVIDE"; "DIVIDING"; "DIVIDED"; "DIVIDES"; "QUOTIENT"; "MODULO"; "BY";
                    "REMAINDER"; "REMAINDERS"; "DIVISION"; "DIVISIONS"];
-          def = safe_div; };
+          def = safe_div;
+          doc = ""; };
       self_opposite
         { words = ["NOTHING"; "VOID"; "NULL"; "EMPTY"; "WAIT"; "STANDBY"; "REST";
                    "NOTHINGNESS"; "WAITING"; "RESTING"; "EMPTINESS"; "VOIDS"; "NULLS";
                    "EMPTINESS"; "WAITS"; "WAITED"; "RESTED"; "RESTS"; "NIL"; "NILS";
                    "VOIDED"; "VOIDING"];
-          def = noop; };
+          def = noop;
+          doc = ""; };
       entry
         { words = ["DUPLICATE"; "DITTO"; "AGAIN"; "CLONE"; "COPY"; "DUPLICATING"; "DUPLICATED";
                    "DUPLICATES"; "CLONING"; "CLONED"; "CLONES"; "COPYING"; "COPIED"; "COPIES"];
-          def = dup; }
+          def = dup;
+          doc = ""; }
         { words = ["POP"; "REMOVE"; "POPPING"; "POPS"; "POPPED"; "REMOVING"; "REMOVES"; "REMOVED";
                    "DELETE"; "DELETING"; "DELETES"; "DELETED"; "DISCARD"; "DISCARDING"; "DISCARDED";
                    "DISCARDS"];
-          def = fun state -> Result.map (fun (_, s) -> s) @@ pop_stack state; };
+          def = (fun state -> Result.map (fun (_, s) -> s) @@ pop_stack state);
+          doc = ""; };
       self_opposite
         { words = ["SWAP"; "SWAPPING"; "SWAPPED"; "SWAPS"; "FLIP"; "FLIPPING";
                    "FLIPS"; "FLIPPED"; "SWITCH"; "SWITCHED"; "SWITCHING"; "SWITCHES";
                    "EXCHANGE"; "EXCHANGES"; "EXCHANGING"; "EXCHANGED"];
-          def = swap; };
+          def = swap;
+          doc = ""; };
       entry
         { words = ["STORE"; "PUT"; "STORES"; "STORING"; "STORED"; "PUTS"; "PUTTING";
                    "HOARD"; "HOARDS"; "HOARDING"; "HOARDED"; "KEEP"; "KEEPS"; "KEEPING";
                    "KEPT"; "STASH"; "STASHED"; "STASHING"; "STASHES"; "DEPOSIT"; "DEPOSITING";
                    "DEPOSITED"; "DEPOSITS"];
-          def = store_value; }
+          def = store_value;
+          doc = ""; }
         { words = ["RETRIEVE"; "RETRIEVES"; "RETRIEVED"; "RETRIEVING"; "GET"; "GETS"; "GETTING";
                    "GOT"; "WITHDRAW"; "WITHDRAWING"; "WITHDRAWS"; "WITHDREW"; "WITHDRAWAL";
                    "WITHDRAWALS"; "RECALL"; "RECALLS"; "RECALLING"; "RECALLED"; "RECLAIM";
                    "RECLAIMS"; "RECLAIMING"; "RECLAIMED"; "FETCH"; "FETCHED"; "FETCHING";
                    "FETCHES"];
-          def = retrieve_value; };
+          def = retrieve_value;
+          doc = ""; };
       branch_top ((<>) 0) ((=) 0) @@
         entry
           { words = ["IF"; "BRANCH"; "CONDITION"; "BRANCHED"; "BRANCHING"; "BRANCHES";
                      "CONDITIONS"; "CONDITIONAL"; "CONDITIONALS"; "CONDITIONALLY"];
-            def = noop; }
+            def = noop;
+            doc = ""; }
           { words = [];
-            def = noop; };
+            def = noop;
+            doc = ""; };
     ]
 
   let starting_word = "START"
