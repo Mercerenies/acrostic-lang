@@ -42,13 +42,17 @@ module Words = struct
   let entries = [
       entry
         { words = ["START"; "BEGIN"; "STARTING"; "BEGINNING"; "STARTED"; "STARTS";
-                   "BEGINS"; "BEGAN"; "BEGUN"];
+                   "BEGINS"; "BEGAN"; "BEGUN"; "COMMENCEMENT"; "COMMENCEMENTS"; "INCEPTION";
+                   "INCEPTIONS"; "INITIATE"; "INITIATED"; "INITIATING"; "INITIATES"; "INITIATION";
+                   "INITIATIONS"; "INAUGURATION"; "INAUGURATIONS"; "PROLOGUE"; "PROLOGUES"];
           def = (fun t -> Ok t);
           doc = "Starting word. This marks the entrypoint of the \
                  program and, when executed backward, terminates the \
                  program."; }
         { words = ["END"; "FINISH"; "ENDING"; "FINISHING"; "ENDS"; "FINISHES"; "ENDED";
-                   "FINISHED"];
+                   "FINISHED"; "DENOUEMENT"; "DENOUEMENTS"; "RESOLUTION"; "RESOLUTIONS";
+                   "EPILOGUE"; "EPILOGUES"; "FINAL"; "FINALE"; "FINALIZE"; "FINALIZED";
+                   "FINALIZING"; "FINALIZES"];
           def = terminate;
           doc = "Finishing word. This marks the entrypoint of the \
                  program (backwards) and, when executed forward, \
@@ -99,7 +103,8 @@ module Words = struct
       literal_number ["BILLION"; "BILLIONS"] 1_000_000_000;
       entry
         { words = ["ASCII"; "TEXTUALLY"; "TEXT"; "CHARACTER"; "TEXTUAL"; "TEXTS"; "STRING";
-                   "CHARACTERS"; "STRINGS"];
+                   "CHARACTERS"; "STRINGS"; "MONOGRAM"; "MONOGRAMS"; "MONOGRAMMING"; "MONOGRAMMED";
+                   "HIEROGLYPH"; "HIEROGLYPHS"; "HIEROGLYPHIC"; "HIEROGLYPHICS"];
           def = successfully (Evaluator.set_flag Flags.IOMode Flags.io_mode_ascii);
           doc = "Sets the IO flag to \"character\" mode. All \
                  subsequent input and output operations will operate \
@@ -120,7 +125,7 @@ module Words = struct
                  the top of the stack is printed numerically in base \
                  10."; }
         { words = ["SCAN"; "INPUT"; "READ"; "SCANNED"; "SCANNING"; "SCANS"; "INPUTTED"; "INPUTTING";
-                   "INPUTS"; "READS"; "READING"];
+                   "INPUTS"; "READS"; "READING"; "PARSE"; "PARSING"; "PARSES"; "PARSED"];
           def = user_input;
           doc = "Reads input from the user and pushes it to the top of \
                  the value stack. If the IO flag is in character mode, \
@@ -130,22 +135,25 @@ module Words = struct
                  10) is pushed."; };
       entry
         { words = ["ADD"; "ADDITION"; "SUM"; "COMBINE"; "COMBINED"; "ADDING"; "ADDED"; "ADDITIVE";
-                   "COMBINING"; "SUMMING"; "SUMMED"; "ADDS"; "COMBINES"; "SUMS"];
+                   "COMBINING"; "SUMMING"; "SUMMED"; "ADDS"; "COMBINES"; "SUMS"; "TOTAL"; "TOTALING";
+                   "TOTALED"; "TOTALS"; "TALLY"; "TALLIES"; "TALLIED"; "TALLYING"];
           def = binary_op (+);
           doc = "Pops two values, adds them together, and pushes the \
                  result."; }
         { words = ["SUBTRACT"; "SUBTRACTION"; "DIFFERENCE"; "WITHOUT"; "SUBTRACTING"; "SUBTRACTED";
-                   "SUBTRACTS"; "DIFFER"; "DIFFERING"; "DIFFERS"; "DIFFERED"];
+                   "SUBTRACTS"; "DIFFER"; "DIFFERING"; "DIFFERS"; "DIFFERED"; "DEDUCT";
+                   "DEDUCTION"; "DEDUCTIONS"; "DEDUCTING"; "DEDUCTED"; "DEDUCTS"];
           def = binary_op (-);
           doc = "Pops two values, subtracts the first value popped \
                  from the second, and pushes the result."; };
       entry
-        { words = ["MULTIPLY"; "MULTIPLYING"; "MULTIPLIED"; "MULTIPLIES"; "TIMES"; "OF"];
+        { words = ["MULTIPLY"; "MULTIPLYING"; "MULTIPLIED"; "MULTIPLIES"; "TIMES"; "OF"; "PRODUCT";
+                   "PRODUCTS"];
           def = binary_op ( * );
           doc = "Pops two values, multiplies them together, and pushes \
                  the result."; }
         { words = ["DIVIDE"; "DIVIDING"; "DIVIDED"; "DIVIDES"; "QUOTIENT"; "MODULO"; "BY";
-                   "REMAINDER"; "REMAINDERS"; "DIVISION"; "DIVISIONS"];
+                   "REMAINDER"; "REMAINDERS"; "DIVISION"; "DIVISIONS"; "QUOTIENTS"; "MODULAR"];
           def = safe_div;
           doc = "Pops two values and divides them. The top value is \
                  the divisor and the next value is the dividend. \
