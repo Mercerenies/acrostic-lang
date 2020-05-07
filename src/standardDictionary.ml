@@ -6,7 +6,7 @@ open Printf
 
 let literal_number_doc n =
   sprintf
-    "Pushes the literal number %d onto the stack. If executed \
+    "Pushes the literal number %d onto the value stack. If executed \
      backwards, pushes the literal number %d onto the stack."
     n (-n)
 
@@ -44,11 +44,15 @@ module Words = struct
         { words = ["START"; "BEGIN"; "STARTING"; "BEGINNING"; "STARTED"; "STARTS";
                    "BEGINS"; "BEGAN"; "BEGUN"];
           def = (fun t -> Ok t);
-          doc = ""; }
+          doc = "Starting word. This marks the entrypoint of the \
+                 program and, when executed backward, terminates the \
+                 program."; }
         { words = ["END"; "FINISH"; "ENDING"; "FINISHING"; "ENDS"; "FINISHES"; "ENDED";
                    "FINISHED"];
           def = terminate;
-          doc = ""; };
+          doc = "Finishing word. This marks the entrypoint of the \
+                 program (backwards) and, when executed forward, \
+                 terminates the program."; };
       literal_number ["ZERO"; "ZILCH"; "NONE"] 0;
       literal_number ["ONE"; "SINGLE"; "SINGULAR"] 1;
       literal_number ["TWO"; "PAIR"; "DOUBLE"; "DUO"] 2;
@@ -83,80 +87,108 @@ module Words = struct
         { words = ["ASCII"; "TEXTUALLY"; "TEXT"; "CHARACTER"; "TEXTUAL"; "TEXTS"; "STRING";
                    "CHARACTERS"; "STRINGS"];
           def = successfully (Evaluator.set_flag Flags.IOMode Flags.io_mode_ascii);
-          doc = ""; }
+          doc = "Sets the IO flag to \"character\" mode. All \
+                 subsequent input and output operations will operate \
+                 on characters."; }
         { words = ["NUMBER"; "NUMERICALLY"; "INTEGER"; "NUMBERS"; "INTEGERS"; "NUMERICAL"];
           def = successfully (Evaluator.set_flag Flags.IOMode Flags.io_mode_number);
-          doc = ""; };
+          doc = "Sets the IO flag to \"number\" mode. All subsequent \
+                 input and output operations will operate on integers."; };
       entry
         { words = ["PRINT"; "OUTPUT"; "WRITE"; "PRINTS"; "PRINTING"; "PRINTED"; "OUTPUTS";
                    "OUTPUTTING"; "OUTPUTTED"; "WRITES"; "WROTE"; "WRITING"; "DISPLAY"; "DISPLAYS";
                    "DISPLAYING"; "DISPLAYED"];
           def = user_output;
-          doc = ""; }
+          doc = "Pops the top of the value stack and prints it. If the \
+                 IO flag is in character mode, a single character is \
+                 printed, whose ASCII value is the top value on the \
+                 stack. If the IO flag is in number mode, the value of \
+                 the top of the stack is printed numerically in base \
+                 10."; }
         { words = ["SCAN"; "INPUT"; "READ"; "SCANNED"; "SCANNING"; "SCANS"; "INPUTTED"; "INPUTTING";
                    "INPUTS"; "READS"; "READING"];
           def = user_input;
-          doc = ""; };
+          doc = "Reads input from the user and pushes it to the top of \
+                 the value stack. If the IO flag is in character mode, \
+                 a single character is read, and its ASCII value is \
+                 pushed. If the IO flag is in number mode, a sequence \
+                 of digits is read and their numerical value (in base \
+                 10) is pushed."; };
       entry
         { words = ["ADD"; "ADDITION"; "SUM"; "COMBINE"; "COMBINED"; "ADDING"; "ADDED"; "ADDITIVE";
                    "COMBINING"; "SUMMING"; "SUMMED"; "ADDS"; "COMBINES"; "SUMS"];
           def = binary_op (+);
-          doc = ""; }
+          doc = "Pops two values, adds them together, and pushes the \
+                 result."; }
         { words = ["SUBTRACT"; "SUBTRACTION"; "DIFFERENCE"; "WITHOUT"; "SUBTRACTING"; "SUBTRACTED";
                    "SUBTRACTS"; "DIFFER"; "DIFFERING"; "DIFFERS"; "DIFFERED"];
           def = binary_op (-);
-          doc = ""; };
+          doc = "Pops two values, subtracts the first value popped \
+                 from the second, and pushes the result."; };
       entry
         { words = ["MULTIPLY"; "MULTIPLYING"; "MULTIPLIED"; "MULTIPLIES"; "TIMES"; "OF"];
           def = binary_op ( * );
-          doc = ""; }
+          doc = "Pops two values, multiplies them together, and pushes \
+                 the result."; }
         { words = ["DIVIDE"; "DIVIDING"; "DIVIDED"; "DIVIDES"; "QUOTIENT"; "MODULO"; "BY";
                    "REMAINDER"; "REMAINDERS"; "DIVISION"; "DIVISIONS"];
           def = safe_div;
-          doc = ""; };
+          doc = "Pops two values and divides them. The top value is \
+                 the divisor and the next value is the dividend. \
+                 First, the quotient (truncated toward zero) is \
+                 pushed, then the remainder of division is pushed onto \
+                 the stack."; };
       self_opposite
         { words = ["NOTHING"; "VOID"; "NULL"; "EMPTY"; "WAIT"; "STANDBY"; "REST";
                    "NOTHINGNESS"; "WAITING"; "RESTING"; "EMPTINESS"; "VOIDS"; "NULLS";
                    "EMPTINESS"; "WAITS"; "WAITED"; "RESTED"; "RESTS"; "NIL"; "NILS";
                    "VOIDED"; "VOIDING"];
           def = noop;
-          doc = ""; };
+          doc = "This instruction has no effect, whether executed \
+                 forward or backward."; };
       entry
         { words = ["DUPLICATE"; "DITTO"; "AGAIN"; "CLONE"; "COPY"; "DUPLICATING"; "DUPLICATED";
                    "DUPLICATES"; "CLONING"; "CLONED"; "CLONES"; "COPYING"; "COPIED"; "COPIES"];
           def = dup;
-          doc = ""; }
+          doc = "Pops one value off the stack and pushes it twice, \
+                 effectively duplicating the value."; }
         { words = ["POP"; "REMOVE"; "POPPING"; "POPS"; "POPPED"; "REMOVING"; "REMOVES"; "REMOVED";
                    "DELETE"; "DELETING"; "DELETES"; "DELETED"; "DISCARD"; "DISCARDING"; "DISCARDED";
                    "DISCARDS"];
           def = (fun state -> Result.map (fun (_, s) -> s) @@ pop_stack state);
-          doc = ""; };
+          doc = "Pops one value off the stack and discards it."; };
       self_opposite
         { words = ["SWAP"; "SWAPPING"; "SWAPPED"; "SWAPS"; "FLIP"; "FLIPPING";
                    "FLIPS"; "FLIPPED"; "SWITCH"; "SWITCHED"; "SWITCHING"; "SWITCHES";
                    "EXCHANGE"; "EXCHANGES"; "EXCHANGING"; "EXCHANGED"];
           def = swap;
-          doc = ""; };
+          doc = "Swaps the top two values on the value stack."; };
       entry
         { words = ["STORE"; "PUT"; "STORES"; "STORING"; "STORED"; "PUTS"; "PUTTING";
                    "HOARD"; "HOARDS"; "HOARDING"; "HOARDED"; "KEEP"; "KEEPS"; "KEEPING";
                    "KEPT"; "STASH"; "STASHED"; "STASHING"; "STASHES"; "DEPOSIT"; "DEPOSITING";
                    "DEPOSITED"; "DEPOSITS"];
           def = store_value;
-          doc = ""; }
+          doc = "Pops one value off the value stack and pushes it onto \
+                 the storage stack."; }
         { words = ["RETRIEVE"; "RETRIEVES"; "RETRIEVED"; "RETRIEVING"; "GET"; "GETS"; "GETTING";
                    "GOT"; "WITHDRAW"; "WITHDRAWING"; "WITHDRAWS"; "WITHDREW"; "WITHDRAWAL";
                    "WITHDRAWALS"; "RECALL"; "RECALLS"; "RECALLING"; "RECALLED"; "RECLAIM";
                    "RECLAIMS"; "RECLAIMING"; "RECLAIMED"; "FETCH"; "FETCHED"; "FETCHING";
                    "FETCHES"];
           def = retrieve_value;
-          doc = ""; };
+          doc = "Pops one value off the storage stack and pushes it \
+                 onto the value stack."; };
       branch_top ((<>) 0) ((=) 0) @@
         entry
           { words = ["IF"; "BRANCH"; "CONDITION"; "BRANCHED"; "BRANCHING"; "BRANCHES";
                      "CONDITIONS"; "CONDITIONAL"; "CONDITIONALS"; "CONDITIONALLY"];
             def = noop;
-            doc = ""; }
+            doc = "This instruction is a no-op when executed. However, \
+                   during backtracking, this word will be ignored if \
+                   the top value of the stack is zero. If used \
+                   backwards, this word will be ignored if the top \
+                   value of the stack is nonzero."; }
           { words = [];
             def = noop;
             doc = ""; };
