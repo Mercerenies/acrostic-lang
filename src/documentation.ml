@@ -28,17 +28,20 @@ module Gen(W : Dictionary.WordList) = struct
 
 end
 
+let linked_word w =
+  sprintf "[%s](#%s)" w (String.lowercase w)
+
 let string doc =
   let syn =
     if List.is_empty doc.synonyms then
       ""
     else
-      sprintf "\n\n*Synonyms: %s*" (String.concat ", " doc.synonyms) in
+      sprintf "\n\n*Synonyms: %s*" (doc.synonyms |> List.map linked_word |> String.concat ", ") in
   let ant =
     if List.is_empty doc.antonyms then
       ""
     else
-      sprintf "\n\n*Antonyms: %s*" (String.concat ", " doc.antonyms) in
+      sprintf "\n\n*Antonyms: %s*" (doc.antonyms |> List.map linked_word |> String.concat ", ") in
   sprintf "## %s\n\n%s%s%s"
     doc.word doc.text syn ant
 
