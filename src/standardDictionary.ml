@@ -165,25 +165,32 @@ module Words = struct
         { words = ["NOTHING"; "VOID"; "NULL"; "EMPTY"; "WAIT"; "STANDBY"; "REST";
                    "NOTHINGNESS"; "WAITING"; "RESTING"; "EMPTINESS"; "VOIDS"; "NULLS";
                    "EMPTINESS"; "WAITS"; "WAITED"; "RESTED"; "RESTS"; "NIL"; "NILS";
-                   "VOIDED"; "VOIDING"];
+                   "VOIDED"; "VOIDING"; "AWAIT"; "AWAITED"; "AWAITING"; "AWAITS"; "HANG";
+                   "HANGS"; "HANGING"; "HUNG"; "STALL"; "STALLS"; "STALLING"; "STALLED"];
           def = noop;
           doc = "This instruction has no effect, whether executed \
                  forward or backward."; };
       entry
         { words = ["DUPLICATE"; "DITTO"; "AGAIN"; "CLONE"; "COPY"; "DUPLICATING"; "DUPLICATED";
-                   "DUPLICATES"; "CLONING"; "CLONED"; "CLONES"; "COPYING"; "COPIED"; "COPIES"];
+                   "DUPLICATES"; "CLONING"; "CLONED"; "CLONES"; "COPYING"; "COPIED"; "COPIES";
+                   "MIRROR"; "MIRRORS"; "REPLICATE"; "REPLICATED"; "REPLICATING"; "REPLICATES";
+                   "MIRRORING"; "MIRRORED"; "REPRODUCE"; "REPRODUCED"; "REPRODUCES"; "REPRODUCING";
+                   "DUPE"; "DUPED"; "DUPING"; "DUPES"];
           def = dup;
           doc = "Pops one value off the stack and pushes it twice, \
                  effectively duplicating the value."; }
         { words = ["POP"; "REMOVE"; "POPPING"; "POPS"; "POPPED"; "REMOVING"; "REMOVES"; "REMOVED";
                    "DELETE"; "DELETING"; "DELETES"; "DELETED"; "DISCARD"; "DISCARDING"; "DISCARDED";
-                   "DISCARDS"];
+                   "DISCARDS"; "DESTROY"; "DESTROYS"; "DESTROYED"; "DESTROYING"; "ELIMINATE";
+                   "ELIMINATES"; "ELIMINATING"; "ELIMINATED"; "CUT"; "CUTS"; "CUTTING"; "OMIT";
+                   "OMITTING"; "OMITS"; "OMITTED"];
           def = (fun state -> Result.map (fun (_, s) -> s) @@ pop_stack state);
           doc = "Pops one value off the stack and discards it."; };
       self_opposite
         { words = ["SWAP"; "SWAPPING"; "SWAPPED"; "SWAPS"; "FLIP"; "FLIPPING";
                    "FLIPS"; "FLIPPED"; "SWITCH"; "SWITCHED"; "SWITCHING"; "SWITCHES";
-                   "EXCHANGE"; "EXCHANGES"; "EXCHANGING"; "EXCHANGED"];
+                   "EXCHANGE"; "EXCHANGES"; "EXCHANGING"; "EXCHANGED"; "FLOP"; "FLOPPING";
+                   "FLOPS"; "FLOPPED"];
           def = swap;
           doc = "Swaps the top two values on the value stack."; };
       entry
@@ -205,7 +212,8 @@ module Words = struct
       branch_top ((<>) 0) ((=) 0) @@
         entry
           { words = ["BRANCH"; "IF"; "CONDITION"; "BRANCHED"; "BRANCHING"; "BRANCHES";
-                     "CONDITIONS"; "CONDITIONAL"; "CONDITIONALS"; "CONDITIONALLY"];
+                     "CONDITIONS"; "CONDITIONAL"; "CONDITIONALS"; "CONDITIONALLY"; "CASE";
+                     "CASES"; "WHEN"; "WHENEVER"; "ASSUMING"; "PROVIDED"; "NECESSARILY"];
             def = noop;
             doc = "This instruction is a no-op when executed. However, \
                    during backtracking, this word will be ignored if \
