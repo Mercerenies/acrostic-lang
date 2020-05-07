@@ -33,14 +33,14 @@ let string doc =
     if List.is_empty doc.synonyms then
       ""
     else
-      sprintf "*Synonyms: %s*\n\n" (String.concat ", " doc.synonyms) in
+      sprintf "\n\n*Synonyms: %s*" (String.concat ", " doc.synonyms) in
   let ant =
     if List.is_empty doc.antonyms then
       ""
     else
-      sprintf "*Antonyms: %s*\n\n" (String.concat ", " doc.antonyms) in
+      sprintf "\n\n*Antonyms: %s*" (String.concat ", " doc.antonyms) in
   sprintf "## %s\n\n%s%s%s"
-    doc.word syn ant doc.text
+    doc.word doc.text syn ant
 
 let string_of_list lst =
   let compare x y = String.compare x.word y.word in
