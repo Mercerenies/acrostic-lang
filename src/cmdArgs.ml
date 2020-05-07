@@ -26,6 +26,10 @@ let parse_args argv =
        match Debugger.of_int debug_level.contents with
          | None -> error "Invalid debug level."
          | Some d -> { filename = f; debug_level = d; }
-  with Arg.Bad(s) ->
+  with
+  | Arg.Bad(s) ->
     prerr_endline s;
     exit 1
+  | Arg.Help(s) ->
+     prerr_endline s;
+     exit 0
