@@ -45,6 +45,6 @@ let string doc =
 let string_of_list lst =
   let compare x y = String.compare x.word y.word in
   lst |>
-    List.sort compare |>
+    List.sort_uniq compare |>
     List.map string |>
     String.concat "\n\n"
