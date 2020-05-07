@@ -15,3 +15,6 @@ Compile with
 And run with
 
     ./acrostic.native <input-file-name>
+
+For details on how to write code in Acrostic, please see the
+[wiki](https://github.com/Mercerenies/acrostic-lang/wiki/).
