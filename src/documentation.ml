@@ -14,8 +14,8 @@ module Gen(W : Dictionary.WordList) = struct
 
   let doc_for_entry w def =
     { word = w;
-      synonyms = Dict.synonyms_of w;
-      antonyms = Dict.antonyms_of w;
+      synonyms = List.sort String.compare (Dict.synonyms_of w);
+      antonyms = List.sort String.compare (Dict.antonyms_of w);
       text = def.Dictionary.doc; }
 
   let markdown_docs =
