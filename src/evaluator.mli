@@ -43,13 +43,13 @@ end
 
 module Eval(Dict : Dictionary) : sig
 
-  val execute_one_step : t -> (t, err) result
+  val execute_one_step : Debugger.t -> t -> (t, err) result
 
-  val execute_until_done : t -> (t, err) result
+  val execute_until_done : Debugger.t -> t -> (t, err) result
 
   val starting_state : CodeGrid.t -> (t, err) result
 
-  val execute_code : CodeGrid.t -> (t, err) result
+  val execute_code : Debugger.t -> CodeGrid.t -> (t, err) result
 
   val check_all_words_exist : CodeGrid.t -> (unit, err) result
 

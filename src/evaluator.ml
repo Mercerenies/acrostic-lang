@@ -59,6 +59,15 @@ end
 let at_invalid_pos state =
   CodeGrid.get_cell state.code state.pointer = ' '
 
+let print_state_of_system debug state word =
+  if Debugger.int debug >= Debugger.int Debugger.PrintEverything then
+    begin
+      flush stdout;
+      Debugger.print_stack "Value" state.stack debug;
+      Debugger.print_stack "Storage" state.storage debug;
+      print_endline word.WordParser.text
+    end
+
 module Eval(Dict : Dictionary) = struct
 
   module ResultOps = Util.MonadOps(struct
@@ -68,7 +77,7 @@ module Eval(Dict : Dictionary) = struct
 
   let (>>=) = Result.Monad.(>>=)
 
-  let rec execute_one_step state =
+  let rec execute_one_step debug state =
     let open WordParser in
     if at_invalid_pos state then
       Error (InvalidPosition state.pointer)
@@ -78,13 +87,7 @@ module Eval(Dict : Dictionary) = struct
       match at_pos with
       | Some word when Dict.should_acknowledge word state -> begin
           let rel_pos = WordParser.position_in_word word state.pointer in
-          (*
-          List.iter (Printf.printf "%d ") state.stack;
-          print_endline "";
-          List.iter (Printf.printf "%d ") state.storage;
-          print_endline "";
-          print_endline word.text;
-          *)
+          print_state_of_system debug state word;
           let (state', f) =
             if 2 * rel_pos < String.length word.text then
               (* Forward execution *)
@@ -103,13 +106,15 @@ module Eval(Dict : Dictionary) = struct
           | Some f' -> f' state'
         end
       | _ ->
-         execute_one_step { state with pointer = WordParser.move_in_dir state.dir (- state.vel) state.pointer; }
+         execute_one_step
+           debug
+           { state with pointer = WordParser.move_in_dir state.dir (- state.vel) state.pointer; }
 
-  let rec execute_until_done state =
+  let rec execute_until_done debug state =
     if get_flag Flags.Termination state <> 0 then
       Ok state
     else
-    execute_one_step state >>= execute_until_done
+    execute_one_step debug state >>= execute_until_done debug
 
   let starting_state code =
     let open WordParser in
@@ -138,8 +143,8 @@ module Eval(Dict : Dictionary) = struct
        let start_or_end x = if List.mem x.text starting_words then x.start_pos else x.end_pos in
        Error (AmbiguousStartPosition (List.map start_or_end xs))
 
-  let execute_code code =
-      starting_state code >>= execute_until_done
+  let execute_code debug code =
+      starting_state code >>= execute_until_done debug
 
   let check_all_words_exist code =
     let open WordParser in

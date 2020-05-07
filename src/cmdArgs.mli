@@ -1,5 +1,6 @@
 
 type t =
-  { filename: string }
+  { filename: string;
+    debug_level: Debugger.t }
 
 val parse_args : string array -> t
