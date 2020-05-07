@@ -89,7 +89,7 @@ module Words = struct
         { words = ["MULTIPLY"; "MULTIPLYING"; "MULTIPLIED"; "MULTIPLIES"; "TIMES"; "OF"];
           def = binary_op ( * ); }
         { words = ["DIVIDE"; "DIVIDING"; "DIVIDED"; "DIVIDES"; "QUOTIENT"; "MODULO"; "BY";
-                   "REMAINDER"; "REMAINDERS"];
+                   "REMAINDER"; "REMAINDERS"; "DIVISION"; "DIVISIONS"];
           def = safe_div; };
       self_opposite
         { words = ["NOTHING"; "VOID"; "NULL"; "EMPTY"; "WAIT"; "STANDBY"; "REST";
