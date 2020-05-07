@@ -182,7 +182,7 @@ module Words = struct
                  onto the value stack."; };
       branch_top ((<>) 0) ((=) 0) @@
         entry
-          { words = ["IF"; "BRANCH"; "CONDITION"; "BRANCHED"; "BRANCHING"; "BRANCHES";
+          { words = ["BRANCH"; "IF"; "CONDITION"; "BRANCHED"; "BRANCHING"; "BRANCHES";
                      "CONDITIONS"; "CONDITIONAL"; "CONDITIONALS"; "CONDITIONALLY"];
             def = noop;
             doc = "This instruction is a no-op when executed. However, \
