@@ -44,7 +44,8 @@ module Words = struct
         { words = ["START"; "BEGIN"; "STARTING"; "BEGINNING"; "STARTED"; "STARTS";
                    "BEGINS"; "BEGAN"; "BEGUN"; "COMMENCEMENT"; "COMMENCEMENTS"; "INCEPTION";
                    "INCEPTIONS"; "INITIATE"; "INITIATED"; "INITIATING"; "INITIATES"; "INITIATION";
-                   "INITIATIONS"; "INAUGURATION"; "INAUGURATIONS"; "PROLOGUE"; "PROLOGUES"];
+                   "INITIATIONS"; "INAUGURATION"; "INAUGURATIONS"; "PROLOGUE"; "PROLOGUES";
+                   "COMMENCE"; "COMMENCES"; "COMMENCED"; "COMMENCING"];
           def = (fun t -> Ok t);
           doc = "Starting word. This marks the entrypoint of the \
                  program and, when executed backward, terminates the \
@@ -57,12 +58,12 @@ module Words = struct
           doc = "Finishing word. This marks the entrypoint of the \
                  program (backwards) and, when executed forward, \
                  terminates the program."; };
-      literal_number ["ZERO"; "ZILCH"; "NONE"; "AUGHT"; "AUGHTS"; "ZEROES"; "ZEROS"] 0;
+      literal_number ["ZERO"; "ZILCH"; "NONE"; "AUGHT"; "AUGHTS"; "ZEROES"; "ZEROS"; "ZIP"] 0;
       literal_number ["ONE"; "SINGLE"; "SINGULAR"; "ACE"; "SINGLETON"; "UNIT";
                       "SINGLES"; "ACES"; "SINGLETONS"; "UNITS"; "UNO"; "ONES"; "PENNY";
-                      "PENNIES"] 1;
+                      "PENNIES"; "SOLO"] 1;
       literal_number ["TWO"; "PAIR"; "DOUBLE"; "DUO"; "COUPLE"; "DYAD";
-                      "PAIRS"; "DOUBLES"; "COUPLES"; "DYADS"; "TWOS"] 2;
+                      "PAIRS"; "DOUBLES"; "COUPLES"; "DYADS"; "TWOS"; "DUET"; "DUETS"] 2;
       literal_number ["THREE"; "TRIPLE"; "TRIO"; "TRIAD"; "TRIPLET";
                       "TRIPLES"; "TRIADS"; "TRIPLETS"; "THREES"] 3;
       literal_number ["FOUR"; "QUADRUPLE"; "QUARTET"; "QUADRUPLET"; "QUADRUPLES";
@@ -94,7 +95,7 @@ module Words = struct
       literal_number ["EIGHTY"; "EIGHTIES"] 80;
       literal_number ["NINETY"; "NINETIES"] 90;
       literal_number ["HUNDRED"; "CENTURY"; "HUNDREDS"; "CENTURIES"] 100;
-      literal_number ["GROSS"] 144;
+      literal_number ["GROSS"; "GROSSES"] 144;
       literal_number ["THOUSAND"; "THOUSANDS"; "MILLENNIUM"; "MILLENNIUMS"; "MILLENNIA"] 1000;
       literal_number ["KILOBYTE"; "KILOBYTES"] 1024;
       literal_number ["MYRIAD"] 10_000;
@@ -104,7 +105,8 @@ module Words = struct
       entry
         { words = ["ASCII"; "TEXTUALLY"; "TEXT"; "CHARACTER"; "TEXTUAL"; "TEXTS"; "STRING";
                    "CHARACTERS"; "STRINGS"; "MONOGRAM"; "MONOGRAMS"; "MONOGRAMMING"; "MONOGRAMMED";
-                   "HIEROGLYPH"; "HIEROGLYPHS"; "HIEROGLYPHIC"; "HIEROGLYPHICS"];
+                   "HIEROGLYPH"; "HIEROGLYPHS"; "HIEROGLYPHIC"; "HIEROGLYPHICS"; "SYMBOL";
+                   "SYMBOLIC"; "SYMBOLS"];
           def = successfully (Evaluator.set_flag Flags.IOMode Flags.io_mode_ascii);
           doc = "Sets the IO flag to \"character\" mode. All \
                  subsequent input and output operations will operate \
@@ -136,13 +138,14 @@ module Words = struct
       entry
         { words = ["ADD"; "ADDITION"; "SUM"; "COMBINE"; "COMBINED"; "ADDING"; "ADDED"; "ADDITIVE";
                    "COMBINING"; "SUMMING"; "SUMMED"; "ADDS"; "COMBINES"; "SUMS"; "TOTAL"; "TOTALING";
-                   "TOTALED"; "TOTALS"; "TALLY"; "TALLIES"; "TALLIED"; "TALLYING"];
+                   "TOTALED"; "TOTALS"; "TALLY"; "TALLIES"; "TALLIED"; "TALLYING"; "PLUS";
+                   "SUMMATION"; "SUMMATIONS"];
           def = binary_op (+);
           doc = "Pops two values, adds them together, and pushes the \
                  result."; }
         { words = ["SUBTRACT"; "SUBTRACTION"; "DIFFERENCE"; "WITHOUT"; "SUBTRACTING"; "SUBTRACTED";
                    "SUBTRACTS"; "DIFFER"; "DIFFERING"; "DIFFERS"; "DIFFERED"; "DEDUCT";
-                   "DEDUCTION"; "DEDUCTIONS"; "DEDUCTING"; "DEDUCTED"; "DEDUCTS"];
+                   "DEDUCTION"; "DEDUCTIONS"; "DEDUCTING"; "DEDUCTED"; "DEDUCTS"; "MINUS"];
           def = binary_op (-);
           doc = "Pops two values, subtracts the first value popped \
                  from the second, and pushes the result."; };
@@ -205,7 +208,7 @@ module Words = struct
                    "GOT"; "WITHDRAW"; "WITHDRAWING"; "WITHDRAWS"; "WITHDREW"; "WITHDRAWAL";
                    "WITHDRAWALS"; "RECALL"; "RECALLS"; "RECALLING"; "RECALLED"; "RECLAIM";
                    "RECLAIMS"; "RECLAIMING"; "RECLAIMED"; "FETCH"; "FETCHED"; "FETCHING";
-                   "FETCHES"];
+                   "FETCHES"; "RETRIEVAL"; "RETRIEVALS"];
           def = retrieve_value;
           doc = "Pops one value off the storage stack and pushes it \
                  onto the value stack."; };
@@ -213,7 +216,8 @@ module Words = struct
         entry
           { words = ["BRANCH"; "IF"; "CONDITION"; "BRANCHED"; "BRANCHING"; "BRANCHES";
                      "CONDITIONS"; "CONDITIONAL"; "CONDITIONALS"; "CONDITIONALLY"; "CASE";
-                     "CASES"; "WHEN"; "WHENEVER"; "ASSUMING"; "PROVIDED"; "NECESSARILY"];
+                     "CASES"; "WHEN"; "WHENEVER"; "ASSUMING"; "PROVIDED"; "NECESSARILY";
+                     "CONTINGENCY"; "CONTINGENCIES"; "CONTINGENT"];
             def = noop;
             doc = "This instruction is a no-op when executed. However, \
                    during backtracking, this word will be ignored if \
