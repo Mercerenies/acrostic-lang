@@ -63,7 +63,7 @@ module Words = struct
                       "SINGLES"; "ACES"; "SINGLETONS"; "UNITS"; "UNO"; "ONES"; "PENNY";
                       "PENNIES"; "SOLO"] 1;
       literal_number ["TWO"; "PAIR"; "DOUBLE"; "DUO"; "COUPLE"; "DYAD";
-                      "PAIRS"; "DOUBLES"; "COUPLES"; "DYADS"; "TWOS"; "DUET"; "DUETS"] 2;
+                      "PAIRS"; "DOUBLES"; "COUPLES"; "DYADS"; "TWOS"; "DUET"; "DUETS"; "DUOS"] 2;
       literal_number ["THREE"; "TRIPLE"; "TRIO"; "TRIAD"; "TRIPLET";
                       "TRIPLES"; "TRIADS"; "TRIPLETS"; "THREES"] 3;
       literal_number ["FOUR"; "QUADRUPLE"; "QUARTET"; "QUADRUPLET"; "QUADRUPLES";
